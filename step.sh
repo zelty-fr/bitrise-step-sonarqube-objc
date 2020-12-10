@@ -23,7 +23,7 @@ env NSUnbufferedIO=YES \
 -workspace "${xcodebuild_workspace}" \
 -scheme "${xcodebuild_scheme}" \
 -destination "${xcodebuild_destination}" \
--derivedDataPath derived_data_path
+-derivedDataPath derived_data_path \
 "${xcodebuild_actions}" CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | xcpretty
 
 SONAR_SCANNER_CMD=$BITRISE_SOURCE_DIR/sonar-scanner-${scanner_version}/bin/sonar-scanner
