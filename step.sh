@@ -41,7 +41,7 @@ fi
    -Dsonar.host.url="${sonar_endpoint}" \
    -Dsonar.login="${sonar_token}" \
    -Dsonar.sources=./ \
-   -Dsonar.cfamily.build-wrapper-output=./bw_output/
+   -Dsonar.cfamily.build-wrapper-output=./bw-output/
 #else 
 #   "${SONAR_SCANNER_CMD}" \
 #   -Dsonar.projectKey="${sonar_project_key}" \
