@@ -27,7 +27,7 @@ env NSUnbufferedIO=YES \
 "${xcodebuild_actions}" CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | xcpretty
 
 SONAR_SCANNER_CMD=$BITRISE_SOURCE_DIR/sonar-scanner-${scanner_version}/bin/sonar-scanner
-if [ ! -f $SONAR_SCANNER_CMD ]
+if [ ! -f $SONAR_SCANNER_CMD ]; then
   pushd $BITRISE_SOURCE_DIR
   wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${scanner_version}.zip
   unzip sonar-scanner-cli-${scanner_version}.zip
