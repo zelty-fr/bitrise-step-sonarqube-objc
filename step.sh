@@ -11,7 +11,7 @@ else
 fi
 
 SONAR_WARPPER_CMD=$BITRISE_SOURCE_DIR/build-wrapper-macosx-x86/build-wrapper-macosx-x86
-if [ ! -f $SONAR_WARPPER_CMD ]
+if [ ! -f $SONAR_WARPPER_CMD ]; then
   pushd $BITRISE_SOURCE_DIR
   wget https://sonarcloud.io/static/cpp/build-wrapper-macosx-x86.zip
   unzip build-wrapper-macosx-x86.zip
