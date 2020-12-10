@@ -34,7 +34,7 @@ if [ ! -f $SONAR_SCANNER_CMD ]; then
   popd
 fi
 
-if [[ -z "${BITRISE_PULL_REQUEST}" ]]; then
+#if [[ -z "${BITRISE_PULL_REQUEST}" ]]; then
   "${SONAR_SCANNER_CMD}" \
    -Dsonar.projectKey="${sonar_project_key}" \
    -Dsonar.organization="${sonar_orga_name}" \
@@ -42,14 +42,14 @@ if [[ -z "${BITRISE_PULL_REQUEST}" ]]; then
    -Dsonar.login="${sonar_token}" \
    -Dsonar.sources=./ \
    -Dsonar.cfamily.build-wrapper-output=./bw_output/
-else 
-   "${SONAR_SCANNER_CMD}" \
-   -Dsonar.projectKey="${sonar_project_key}" \
-   -Dsonar.organization="${sonar_orga_name}" \
-   -Dsonar.host.url="${sonar_endpoint}" \
-   -Dsonar.login="${sonar_token}" \
-   -Dsonar.sources=./ \
-   -Dsonar.cfamily.build-wrapper-output=./bw_output/
-   -Dsonar.pullrequest.branch=$BITRISE_GIT_BRANCH \
-   -Dsonar.pullrequest.key=$BITRISE_PULL_REQUEST
-fi
+#else 
+#   "${SONAR_SCANNER_CMD}" \
+#   -Dsonar.projectKey="${sonar_project_key}" \
+#   -Dsonar.organization="${sonar_orga_name}" \
+#   -Dsonar.host.url="${sonar_endpoint}" \
+#   -Dsonar.login="${sonar_token}" \
+#   -Dsonar.sources=./ \
+#   -Dsonar.cfamily.build-wrapper-output=./bw_output/
+#   -Dsonar.pullrequest.branch=$BITRISE_GIT_BRANCH \
+#   -Dsonar.pullrequest.key=$BITRISE_PULL_REQUEST
+#fi
