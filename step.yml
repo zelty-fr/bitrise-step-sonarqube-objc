@@ -116,6 +116,21 @@ inputs:
         The actions are passed to the `xcodebuild` command.
       is_expand: true
       is_required: true
+  - BITRISE_PULL_REQUEST: "${BITRISE_PULL_REQUEST}"
+    opts:
+      title: The pull request ID (if any)
+      is_expand: true
+      is_required: false
+  - BITRISE_GIT_BRANCH: "${BITRISE_GIT_BRANCH}"
+    opts:
+      title: The current git branch
+      is_expand: true
+      is_required: false
+  - BITRISE_PR_BASE: "${BITRISEIO_PULL_REQUEST_MERGE_BRANCH}"
+    opts:
+      title: The base PR branch (if any)
+      is_expand: true
+      is_required: false
 
 #outputs:
 #  - EXAMPLE_STEP_OUTPUT:
