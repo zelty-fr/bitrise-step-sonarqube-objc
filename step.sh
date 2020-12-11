@@ -48,6 +48,7 @@ if [ ! -z "${BITRISE_PULL_REQUEST}" ]; then
 fi
 
 "${SONAR_SCANNER_CMD}" ${PR_ARGS} \
+ -Dsonar.cfamily.threads=${sonar_cfamily_threads} \
  -Dsonar.projectKey="${sonar_project_key}" \
  -Dsonar.organization="${sonar_orga_name}" \
  -Dsonar.host.url="${sonar_endpoint}" \

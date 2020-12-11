@@ -92,6 +92,11 @@ inputs:
       description: |-
         Scanner CLI version to be used. Step will fail if invalid or non-existent is specified.
       is_required: true
+  - sonar_cfamily_threads: 2
+    opts:
+      category: SonarQube
+      title: Number of threads the scanner should use
+      is_required: true
   - xcodebuild_workspace: "${BITRISE_PROJECT_PATH}"
     opts:
       category: Xcode Build
