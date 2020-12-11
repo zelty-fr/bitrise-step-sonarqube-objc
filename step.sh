@@ -3,14 +3,13 @@ set -exuo pipefail
 
 echo "BITRISE_GIT_BRANCH=${BITRISE_GIT_BRANCH}"
 echo "BITRISE_PULL_REQUEST=${BITRISE_PULL_REQUEST}"
-echo "BITRISE_PR_BASE=${BITRISE_PR_BASE}"
-echo "BITRISEIO_PULL_REQUEST_HEAD_BRANCH=${BITRISEIO_PULL_REQUEST_HEAD_BRANCH}"
+echo "BITRISEIO_GIT_BRANCH_DEST=${BITRISEIO_GIT_BRANCH_DEST}"
 
 PR_ARGS=""
 if [[ -z "${BITRISE_PULL_REQUEST}" ]]; then
   PR_ARGS="${PR_ARGS} -Dsonar.pullrequest.branch=${BITRISE_GIT_BRANCH} -Dsonar.pullrequest.key=${BITRISE_PULL_REQUEST}"
-  if [[ -z "${BITRISE_PR_BASE}" ]]; then
-    PR_ARGS="${PR_ARGS} -Dsonar.pullrequest.base=${BITRISE_PR_BASE}"
+  if [[ -z "${BITRISEIO_GIT_BRANCH_DEST}" ]]; then
+    PR_ARGS="${PR_ARGS} -Dsonar.pullrequest.base=${BITRISEIO_GIT_BRANCH_DEST}"
   fi
 fi
 

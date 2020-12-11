@@ -135,15 +135,10 @@ inputs:
       category: Pull Request
       title: The current git branch
       is_dont_change_value: true
-  - BITRISE_PR_BASE: "${BITRISEIO_PULL_REQUEST_MERGE_BRANCH}"
+  - BITRISEIO_GIT_BRANCH_DEST: "${BITRISEIO_GIT_BRANCH_DEST}"
     opts:
       category: Pull Request
-      title: The base PR branch (if any)
-      is_dont_change_value: true
-  - BITRISEIO_PULL_REQUEST_HEAD_BRANCH: "${BITRISEIO_PULL_REQUEST_HEAD_BRANCH}"
-    opts:
-      category: Pull Request
-      title: The head PR branch (if any)
+      title: The destination branch (if any)
       is_dont_change_value: true
 
 #outputs:
