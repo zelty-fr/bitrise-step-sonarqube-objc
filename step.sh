@@ -45,6 +45,8 @@ if [ ! -z "${BITRISE_PULL_REQUEST}" ]; then
   if [ ! -z "${BITRISEIO_GIT_BRANCH_DEST}" ]; then
     PR_ARGS="${PR_ARGS} -Dsonar.pullrequest.base=${BITRISEIO_GIT_BRANCH_DEST}"
   fi
+else
+  PR_ARGS="-Dsonar.branch.name=${BITRISE_GIT_BRANCH}"
 fi
 
 "${SONAR_SCANNER_CMD}" ${PR_ARGS} \
