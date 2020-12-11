@@ -5,16 +5,6 @@ echo "BITRISE_GIT_BRANCH=${BITRISE_GIT_BRANCH}"
 echo "BITRISE_PULL_REQUEST=${BITRISE_PULL_REQUEST}"
 echo "BITRISEIO_GIT_BRANCH_DEST=${BITRISEIO_GIT_BRANCH_DEST}"
 
-PR_ARGS=""
-if [[ -z "${BITRISE_PULL_REQUEST}" ]]; then
-  PR_ARGS="${PR_ARGS} -Dsonar.pullrequest.branch=${BITRISE_GIT_BRANCH} -Dsonar.pullrequest.key=${BITRISE_PULL_REQUEST}"
-  if [[ -z "${BITRISEIO_GIT_BRANCH_DEST}" ]]; then
-    PR_ARGS="${PR_ARGS} -Dsonar.pullrequest.base=${BITRISEIO_GIT_BRANCH_DEST}"
-  fi
-fi
-
-echo $PR_ARGS
-
 JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
 if [ ! -z "${JAVA_VERSION_MAJOR}" ]; then
   if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
@@ -46,6 +36,15 @@ if [ ! -f $SONAR_SCANNER_CMD ]; then
   wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${scanner_version}.zip
   unzip sonar-scanner-cli-${scanner_version}.zip
   popd
+fi
+
+
+PR_ARGS=""
+if [ ! -z "${BITRISE_PULL_REQUEST}" ]; then
+  PR_ARGS="${PR_ARGS} -Dsonar.pullrequest.branch=${BITRISE_GIT_BRANCH} -Dsonar.pullrequest.key=${BITRISE_PULL_REQUEST}"
+  if [ ! -z "${BITRISEIO_GIT_BRANCH_DEST}" ]; then
+    PR_ARGS="${PR_ARGS} -Dsonar.pullrequest.base=${BITRISEIO_GIT_BRANCH_DEST}"
+  fi
 fi
 
 "${SONAR_SCANNER_CMD}" ${PR_ARGS} \
