@@ -1,6 +1,10 @@
 #!/bin/bash
 set -exuo pipefail
 
+echo "BITRISE_GIT_BRANCH=${BITRISE_GIT_BRANCH}"
+echo "BITRISE_PULL_REQUEST=${BITRISE_PULL_REQUEST}"
+echo "BITRISE_PR_BASE=${BITRISE_PR_BASE}"
+
 JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
 if [ ! -z "${JAVA_VERSION_MAJOR}" ]; then
   if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
