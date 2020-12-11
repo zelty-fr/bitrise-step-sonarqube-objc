@@ -140,6 +140,11 @@ inputs:
       category: Pull Request
       title: The base PR branch (if any)
       is_dont_change_value: true
+  - BITRISEIO_PULL_REQUEST_HEAD_BRANCH: "${BITRISEIO_PULL_REQUEST_HEAD_BRANCH}"
+    opts:
+      category: Pull Request
+      title: The head PR branch (if any)
+      is_dont_change_value: true
 
 #outputs:
 #  - EXAMPLE_STEP_OUTPUT:
