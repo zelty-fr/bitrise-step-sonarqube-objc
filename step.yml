@@ -64,31 +64,37 @@ inputs:
   - sonar_project_key:
     opts:
       title: "Sonar Project Key"
+      category: SonarQube
       is_expand: true
       is_required: true
   - sonar_orga_name:
     opts:
       title: "Sonar Organisation Name"
+      category: SonarQube
       is_expand: true
       is_required: true
   - sonar_endpoint: https://sonarcloud.io
     opts:
       title: "Sonar endpoint"
+      category: SonarQube
       is_expand: true
       is_required: true
   - sonar_token: "${SONAR_TOKEN}"
     opts:
       title: "Sonar Auth Token"
+      category: SonarQube
       is_expand: true
       is_required: true
   - scanner_version: 4.3.0.2102
     opts:
+      category: SonarQube
       title: Scanner CLI version
       description: |-
         Scanner CLI version to be used. Step will fail if invalid or non-existent is specified.
       is_required: true
   - xcodebuild_workspace: "${BITRISE_PROJECT_PATH}"
     opts:
+      category: Xcode Build
       title: The Xcode workspace.
       description: |
         The value of the `-workspace` option.
@@ -96,6 +102,7 @@ inputs:
       is_required: true
   - xcodebuild_scheme: "${BITRISE_SCHEME}"
     opts:
+      category: Xcode Build
       title: The Xcode scheme.
       description: |
         The value of the `-scheme` option.
@@ -103,6 +110,7 @@ inputs:
       is_required: true
   - xcodebuild_destination: "generic/platform=iOS"
     opts:
+      category: Xcode Build
       title: The destination specifier.
       description: |
         The value of the `-destination` option.
@@ -111,6 +119,7 @@ inputs:
       is_required: true
   - xcodebuild_actions: build
     opts:
+      category: Xcode Build
       title: The `xcodebuild` actions to perform.
       description: |
         The actions are passed to the `xcodebuild` command.
@@ -118,19 +127,19 @@ inputs:
       is_required: true
   - BITRISE_PULL_REQUEST: "${BITRISE_PULL_REQUEST}"
     opts:
+      category: Pull Request
       title: The pull request ID (if any)
-      is_expand: true
-      is_required: false
+      is_dont_change_value: true
   - BITRISE_GIT_BRANCH: "${BITRISE_GIT_BRANCH}"
     opts:
+      category: Pull Request
       title: The current git branch
-      is_expand: true
-      is_required: false
+      is_dont_change_value: true
   - BITRISE_PR_BASE: "${BITRISEIO_PULL_REQUEST_MERGE_BRANCH}"
     opts:
+      category: Pull Request
       title: The base PR branch (if any)
-      is_expand: true
-      is_required: false
+      is_dont_change_value: true
 
 #outputs:
 #  - EXAMPLE_STEP_OUTPUT:
