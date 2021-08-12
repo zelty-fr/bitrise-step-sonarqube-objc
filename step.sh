@@ -28,7 +28,15 @@ env NSUnbufferedIO=YES \
 -scheme "${xcodebuild_scheme}" \
 -destination "${xcodebuild_destination}" \
 -derivedDataPath derived_data_path \
-"${xcodebuild_actions}" CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | xcpretty
+${xcodebuild_actions} CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | xcpretty
+
+SONAR_XCCOV_CMD=$BITRISE_SOURCE_DIR/xccov-to-sonarqub-generic.sh
+if [ ! -f $SONAR_XCCOV_CMD ]; then
+	pushd $BITRISE_SOURCE_DIR
+	wget https://github.com/SonarSource/sonar-scanning-examples/blob/master/swift-coverage/swift-coverage-example/xccov-to-sonarqube-generic.sh -O $SONAR_XCCOV_CMD
+	popd
+fi
+bash $SONAR_XCCOV_CMD Build/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
 
 SONAR_SCANNER_CMD=$BITRISE_SOURCE_DIR/sonar-scanner-${scanner_version}/bin/sonar-scanner
 if [ ! -f $SONAR_SCANNER_CMD ]; then
@@ -56,4 +64,5 @@ fi
  -Dsonar.host.url="${sonar_endpoint}" \
  -Dsonar.login="${sonar_token}" \
  -Dsonar.sources=./ \
+ -Dsonar.coverageReportPaths=sonarqube-generic-coverage.xml
  -Dsonar.cfamily.build-wrapper-output=./bw-output/
