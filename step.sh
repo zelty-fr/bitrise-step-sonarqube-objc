@@ -33,7 +33,7 @@ ${xcodebuild_actions} CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | 
 SONAR_XCCOV_CMD=$BITRISE_SOURCE_DIR/xccov-to-sonarqub-generic.sh
 if [ ! -f $SONAR_XCCOV_CMD ]; then
 	pushd $BITRISE_SOURCE_DIR
-	wget https://github.com/SonarSource/sonar-scanning-examples/blob/master/swift-coverage/swift-coverage-example/xccov-to-sonarqube-generic.sh -O $SONAR_XCCOV_CMD
+	wget https://raw.githubusercontent.com/SonarSource/sonar-scanning-examples/master/swift-coverage/swift-coverage-example/xccov-to-sonarqube-generic.sh -O $SONAR_XCCOV_CMD
 	popd
 fi
 bash $SONAR_XCCOV_CMD derived_data_path/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
