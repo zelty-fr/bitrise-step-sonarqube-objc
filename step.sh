@@ -64,5 +64,5 @@ fi
  -Dsonar.host.url="${sonar_endpoint}" \
  -Dsonar.login="${sonar_token}" \
  -Dsonar.sources=./ \
- -Dsonar.coverageReportPaths=sonarqube-generic-coverage.xml
+ -Dsonar.coverageReportPaths=sonarqube-generic-coverage.xml \
  -Dsonar.cfamily.build-wrapper-output=./bw-output/
