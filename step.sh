@@ -36,7 +36,7 @@ if [ ! -f $SONAR_XCCOV_CMD ]; then
 	wget https://github.com/SonarSource/sonar-scanning-examples/blob/master/swift-coverage/swift-coverage-example/xccov-to-sonarqube-generic.sh -O $SONAR_XCCOV_CMD
 	popd
 fi
-bash $SONAR_XCCOV_CMD Build/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
+bash $SONAR_XCCOV_CMD derived_data_path/Logs/Test/*.xcresult/ > sonarqube-generic-coverage.xml
 
 SONAR_SCANNER_CMD=$BITRISE_SOURCE_DIR/sonar-scanner-${scanner_version}/bin/sonar-scanner
 if [ ! -f $SONAR_SCANNER_CMD ]; then
