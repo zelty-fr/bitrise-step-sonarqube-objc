@@ -5,8 +5,8 @@ echo "BITRISE_GIT_BRANCH=${BITRISE_GIT_BRANCH}"
 echo "BITRISE_PULL_REQUEST=${BITRISE_PULL_REQUEST}"
 echo "BITRISEIO_GIT_BRANCH_DEST=${BITRISEIO_GIT_BRANCH_DEST}"
 
-BUILD_DIR=../Build
-mkdir $BUILD_DIR
+BUILD_DIR=../BuildSonar
+mkdir -p $BUILD_DIR
 
 JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
 if [ ! -z "${JAVA_VERSION_MAJOR}" ]; then
