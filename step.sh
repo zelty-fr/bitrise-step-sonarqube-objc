@@ -33,10 +33,10 @@ env NSUnbufferedIO=YES \
 -derivedDataPath $BUILD_DIR/derived_data_path \
 ${xcodebuild_actions} CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | xcpretty
 
-SONAR_XCCOV_CMD=$BUILD_DIR/xccov-to-sonarqub-generic.sh
+SONAR_XCCOV_CMD=$BUILD_DIR/xccov-to-sonarqube-generic.sh
 if [ ! -f $SONAR_XCCOV_CMD ]; then
 	pushd $BUILD_DIR
-	curl https://raw.githubusercontent.com/SonarSource/sonar-scanning-examples/master/swift-coverage/swift-coverage-example/xccov-to-sonarqube-generic.sh | sed 's/xcrun --show-sdk-version/xcrun --show-sdk-version --sdk macosx/g' > xccov-to-sonarqube-generic.sh
+	cuwgrl https://raw.githubusercontent.com/SonarSource/sonar-scanning-examples/master/swift-coverage/swift-coverage-example/xccov-to-sonarqube-generic.sh | sed 's/xcrun --show-sdk-version/xcrun --show-sdk-version --sdk macosx/g' > $SONAR_XCCOV_CMD
 	popd
 fi
 bash $SONAR_XCCOV_CMD $BUILD_DIR/derived_data_path/Logs/Test/*.xcresult/ > $BUILD_DIR/sonarqube-generic-coverage.xml
