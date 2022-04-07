@@ -39,7 +39,7 @@ if [ ! -f $SONAR_XCCOV_CMD ]; then
 	curl https://raw.githubusercontent.com/SonarSource/sonar-scanning-examples/master/swift-coverage/swift-coverage-example/xccov-to-sonarqube-generic.sh | sed 's/xcrun --show-sdk-version/xcrun --show-sdk-version --sdk macosx/g' > $SONAR_XCCOV_CMD
 	popd
 fi
-bash $SONAR_XCCOV_CMD $BUILD_DIR/derived_data_path/Logs/Test/*.xcresult/ > $BUILD_DIR/sonarqube-generic-coverage.xml
+bash $SONAR_XCCOV_CMD $BUILD_DIR/derived_data_path/Logs/Test/*.xcresult/ | sed "s#$(realpath `pwd`)/##g" > $BUILD_DIR/sonarqube-generic-coverage.xml
 
 SONAR_SCANNER_CMD=$BUILD_DIR/sonar-scanner-${scanner_version}/bin/sonar-scanner
 if [ ! -f $SONAR_SCANNER_CMD ]; then
