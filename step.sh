@@ -49,6 +49,9 @@ if [ ! -f $SONAR_SCANNER_CMD ]; then
   popd
 fi
 
+SWIFTLINT_REPORT=$BUILD_DIR/swiftlint.json
+Pods/SwiftLint/swiftlint lint --reporter json > $SWIFTLINT_REPORT 
+
 
 PR_ARGS=""
 if [ ! -z "${BITRISE_PULL_REQUEST}" ]; then
@@ -67,5 +70,6 @@ fi
  -Dsonar.host.url="${sonar_endpoint}" \
  -Dsonar.login="${sonar_token}" \
  -Dsonar.sources=./ \
+ -Dsonar.swift.swiftLint.reportPaths=$SWIFTLINT_REPORT \
  -Dsonar.coverageReportPaths=$BUILD_DIR/sonarqube-generic-coverage.xml \
  -Dsonar.cfamily.build-wrapper-output=$BUILD_DIR/bw-output/
