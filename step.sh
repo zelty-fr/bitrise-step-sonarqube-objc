@@ -52,6 +52,7 @@ fi
 SONAR_XCCOV_CMD=$BUILD_DIR/xccov-to-sonarqube-generic.sh
 if [ ! -f $SONAR_XCCOV_CMD ]; then
 	pushd $BUILD_DIR
+	curl https://raw.githubusercontent.com/SonarSource/sonar-scanning-examples/master/swift-coverage/swift-coverage-example/xccov-to-sonarqube-generic.sh | sed 's/xcrun --show-sdk-version/xcrun --show-sdk-version --sdk macosx/g' > $SONAR_XCCOV_CMD
 	popd
 fi
 bash $SONAR_XCCOV_CMD $BUILD_DIR/derived_data_path/Logs/Test/*.xcresult/ | sed "s#$(realpath `pwd`)/##g" > $BUILD_DIR/sonarqube-generic-coverage.xml
