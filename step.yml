@@ -97,6 +97,11 @@ inputs:
       category: SonarQube
       title: Number of threads the scanner should use
       is_required: true
+  - SONAR_WRAPPER: 1
+    opts:
+      category: SonarQube
+      title: Should use Sonar Build Wrapper (ou Compilation Database)
+      is_required: true
   - xcodebuild_workspace: "${BITRISE_PROJECT_PATH}"
     opts:
       category: Xcode Build

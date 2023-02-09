@@ -4,9 +4,11 @@ set -exuo pipefail
 echo "BITRISE_GIT_BRANCH=${BITRISE_GIT_BRANCH}"
 echo "BITRISE_PULL_REQUEST=${BITRISE_PULL_REQUEST}"
 echo "BITRISEIO_GIT_BRANCH_DEST=${BITRISEIO_GIT_BRANCH_DEST}"
+echo "SONAR_WRAPPER=${SONAR_WRAPPER}"
 
 BUILD_DIR=../BuildSonar
 mkdir -p $BUILD_DIR
+
 
 JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
 if [ ! -z "${JAVA_VERSION_MAJOR}" ]; then
@@ -17,21 +19,35 @@ else
   echo -e "\e[91mSonar Scanner CLI requires JRE or JDK version 8 or newer. None has been detected, CLI may not work properly.\e[0m"
 fi
 
-SONAR_WARPPER_CMD=$BUILD_DIR/build-wrapper-macosx-x86/build-wrapper-macosx-x86
-if [ ! -f $SONAR_WARPPER_CMD ]; then
-  pushd $BUILD_DIR
-  wget https://sonarcloud.io/static/cpp/build-wrapper-macosx-x86.zip
-  unzip build-wrapper-macosx-x86.zip
-  popd
-fi
+WRAPPER_ARGS=""
 
-env NSUnbufferedIO=YES \
-"${SONAR_WARPPER_CMD}" --out-dir $BUILD_DIR/bw-output xcodebuild \
--workspace "${xcodebuild_workspace}" \
--scheme "${xcodebuild_scheme}" \
--destination "${xcodebuild_destination}" \
--derivedDataPath $BUILD_DIR/derived_data_path \
-${xcodebuild_actions} CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | xcpretty
+if [ "${SONAR_WRAPPER}" == "1" ]; then
+	SONAR_WARPPER_CMD=$BUILD_DIR/build-wrapper-macosx-x86/build-wrapper-macosx-x86
+	if [ ! -f $SONAR_WARPPER_CMD ]; then
+	  pushd $BUILD_DIR
+	  wget https://sonarcloud.io/static/cpp/build-wrapper-macosx-x86.zip
+	  unzip build-wrapper-macosx-x86.zip
+	  popd
+	fi
+
+	env NSUnbufferedIO=YES \
+	"${SONAR_WARPPER_CMD}" --out-dir $BUILD_DIR/bw-output xcodebuild \
+	-workspace "${xcodebuild_workspace}" \
+	-scheme "${xcodebuild_scheme}" \
+	-destination "${xcodebuild_destination}" \
+	-derivedDataPath $BUILD_DIR/derived_data_path \
+	${xcodebuild_actions} CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | xcpretty -r json-compilation-database
+
+	WRAPPER_ARGS="-Dsonar.cfamily.build-wrapper-output=$BUILD_DIR/bw-output/"
+else
+	env NSUnbufferedIO=YES \
+	xcodebuild \
+	-workspace "${xcodebuild_workspace}" \
+	-scheme "${xcodebuild_scheme}" \
+	-destination "${xcodebuild_destination}" \
+	-derivedDataPath $BUILD_DIR/derived_data_path \
+	${xcodebuild_actions} CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | xcpretty -r json-compilation-database
+fi
 
 SONAR_XCCOV_CMD=$BUILD_DIR/xccov-to-sonarqube-generic.sh
 if [ ! -f $SONAR_XCCOV_CMD ]; then
@@ -63,7 +79,7 @@ else
   PR_ARGS="-Dsonar.branch.name=${BITRISE_GIT_BRANCH}"
 fi
 
-"${SONAR_SCANNER_CMD}" ${PR_ARGS} \
+"${SONAR_SCANNER_CMD}" ${PR_ARGS} ${WRAPPER_ARGS} \
  -Dsonar.cfamily.threads=${sonar_cfamily_threads} \
  -Dsonar.projectKey="${sonar_project_key}" \
  -Dsonar.organization="${sonar_orga_name}" \
@@ -72,4 +88,4 @@ fi
  -Dsonar.sources=./ \
  -Dsonar.swift.swiftLint.reportPaths=$SWIFTLINT_REPORT \
  -Dsonar.coverageReportPaths=$BUILD_DIR/sonarqube-generic-coverage.xml \
- -Dsonar.cfamily.build-wrapper-output=$BUILD_DIR/bw-output/
+ -Dsonar.cfamily.compile-commands=build/reports/compilation_db.json
