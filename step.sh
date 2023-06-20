@@ -36,7 +36,7 @@ if [ "${SONAR_WRAPPER}" == "1" ]; then
 	-scheme "${xcodebuild_scheme}" \
 	-destination "${xcodebuild_destination}" \
 	-derivedDataPath $BUILD_DIR/derived_data_path \
-	${xcodebuild_actions} CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | xcpretty -r json-compilation-database
+	${xcodebuild_actions} ${xcodebuild_args} CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | xcpretty -r json-compilation-database
 
 	WRAPPER_ARGS="-Dsonar.cfamily.build-wrapper-output=$BUILD_DIR/bw-output/"
 else
@@ -46,7 +46,7 @@ else
 	-scheme "${xcodebuild_scheme}" \
 	-destination "${xcodebuild_destination}" \
 	-derivedDataPath $BUILD_DIR/derived_data_path \
-	${xcodebuild_actions} CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | xcpretty -r json-compilation-database
+	${xcodebuild_actions} ${xcodebuild_args} CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO | xcpretty -r json-compilation-database
 fi
 
 SONAR_XCCOV_CMD=$BUILD_DIR/xccov-to-sonarqube-generic.sh
