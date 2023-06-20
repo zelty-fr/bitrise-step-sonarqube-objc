@@ -135,6 +135,14 @@ inputs:
         The actions are passed to the `xcodebuild` command.
       is_expand: true
       is_required: true
+  - xcodebuild_args: ""
+    opts:
+      category: Xcode Build
+      title: The `xcodebuild` arguments to add to the build command
+      description: |
+        The arguments that are passed to the `xcodebuild` command.
+      is_expand: true
+      is_required: false
   - BITRISE_PULL_REQUEST: "${BITRISE_PULL_REQUEST}"
     opts:
       category: Pull Request
