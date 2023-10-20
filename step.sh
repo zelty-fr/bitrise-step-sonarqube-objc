@@ -10,6 +10,10 @@ BUILD_DIR=../BuildSonar
 DEPLOY_DIR="${BITRISE_DEPLOY_DIR}"
 mkdir -p $BUILD_DIR
 
+jenv global "17.0"
+export JAVA_HOME="$(jenv prefix)"
+envman add --key JAVA_HOME --value "$(jenv prefix)"
+
 JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
 if [ ! -z "${JAVA_VERSION_MAJOR}" ]; then
   if [ "${JAVA_VERSION_MAJOR}" -lt "8" ]; then
