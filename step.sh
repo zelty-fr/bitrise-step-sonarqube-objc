@@ -7,6 +7,7 @@ echo "BITRISEIO_GIT_BRANCH_DEST=${BITRISEIO_GIT_BRANCH_DEST}"
 echo "SONAR_WRAPPER=${SONAR_WRAPPER}"
 
 BUILD_DIR=../BuildSonar
+DEPLOY_DIR="${BITRISE_DEPLOY_DIR}"
 mkdir -p $BUILD_DIR
 
 
@@ -55,7 +56,8 @@ if [ ! -f $SONAR_XCCOV_CMD ]; then
 	curl https://raw.githubusercontent.com/SonarSource/sonar-scanning-examples/master/swift-coverage/swift-coverage-example/xccov-to-sonarqube-generic.sh | sed 's/xcrun --show-sdk-version/xcrun --show-sdk-version --sdk macosx/g' > $SONAR_XCCOV_CMD
 	popd
 fi
-bash $SONAR_XCCOV_CMD $BUILD_DIR/derived_data_path/Logs/Test/*.xcresult/ | sed "s#$(realpath `pwd`)/##g" > $BUILD_DIR/sonarqube-generic-coverage.xml
+SONAR_COV_REPORT=$DEPLOY_DIR/sonarqube-generic-coverage.xml
+bash $SONAR_XCCOV_CMD $BUILD_DIR/derived_data_path/Logs/Test/*.xcresult/ | sed "s#$(realpath `pwd`)/##g" > "${SONAR_COV_REPORT}"
 
 SONAR_SCANNER_CMD=$BUILD_DIR/sonar-scanner-${scanner_version}/bin/sonar-scanner
 if [ ! -f $SONAR_SCANNER_CMD ]; then
@@ -65,7 +67,7 @@ if [ ! -f $SONAR_SCANNER_CMD ]; then
   popd
 fi
 
-SWIFTLINT_REPORT=$BUILD_DIR/swiftlint.json
+SWIFTLINT_REPORT=$DEPLOY_DIR/swiftlint.json
 Pods/SwiftLint/swiftlint lint --reporter json > $SWIFTLINT_REPORT || echo "Failure..."
 
 PR_ARGS=""
@@ -85,6 +87,6 @@ fi
  -Dsonar.host.url="${sonar_endpoint}" \
  -Dsonar.login="${sonar_token}" \
  -Dsonar.sources=./ \
- -Dsonar.swift.swiftLint.reportPaths=$SWIFTLINT_REPORT \
- -Dsonar.coverageReportPaths=$BUILD_DIR/sonarqube-generic-coverage.xml \
+ -Dsonar.swift.swiftLint.reportPaths="${SWIFTLINT_REPORT}" \
+ -Dsonar.coverageReportPaths="${SONAR_COV_REPORT}" \
  -Dsonar.cfamily.compile-commands=build/reports/compilation_db.json
