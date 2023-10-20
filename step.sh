@@ -10,6 +10,10 @@ BUILD_DIR=../BuildSonar
 DEPLOY_DIR="${BITRISE_DEPLOY_DIR}"
 mkdir -p $BUILD_DIR
 
+jenv global 17
+export JAVA_HOME="$(jenv prefix)"
+envman add --key JAVA_HOME --value "$(jenv prefix)"
+
 
 JAVA_VERSION_MAJOR=$(java -version 2>&1 | grep -i version | sed 's/.*version ".*\.\(.*\)\..*"/\1/; 1q')
 if [ ! -z "${JAVA_VERSION_MAJOR}" ]; then
@@ -85,7 +89,7 @@ fi
  -Dsonar.projectKey="${sonar_project_key}" \
  -Dsonar.organization="${sonar_orga_name}" \
  -Dsonar.host.url="${sonar_endpoint}" \
- -Dsonar.login="${sonar_token}" \
+ -Dsonar.token="${sonar_token}" \
  -Dsonar.sources=./ \
  -Dsonar.swift.swiftLint.reportPaths="${SWIFTLINT_REPORT}" \
  -Dsonar.coverageReportPaths="${SONAR_COV_REPORT}" \
