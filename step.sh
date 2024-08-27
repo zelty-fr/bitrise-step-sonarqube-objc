@@ -71,7 +71,7 @@ if [ ! -f $SONAR_SCANNER_CMD ]; then
 fi
 
 SWIFTLINT_REPORT=$DEPLOY_DIR/swiftlint.json
-Pods/SwiftLint/swiftlint lint --reporter json > $SWIFTLINT_REPORT || echo "Failure..."
+swiftlint lint --reporter json > $SWIFTLINT_REPORT || echo "Failure..."
 
 PR_ARGS=""
 if [ ! -z "${BITRISE_PULL_REQUEST}" ]; then
